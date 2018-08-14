@@ -163,19 +163,19 @@ Steps:
     docker-compose -f docker-compose-yourorgname.yaml up -d
   ```
 
-    8. Packaged `msp` folder. 
+  8. Packaged `msp` folder. 
 
   ```bash
   tar -czvf msp.tar.gz crypto-config/peerOrganizations/YourOrgName.yourdomain.com/msp
   ```
 
-    9. After you pass KYC verification successfully,  fill out the [Application Form](https://docs.google.com/forms/d/e/1FAIpQLSfEKn9Nd-KNC58xSykppZYxtdc_0qwIGjP9KhHZ0-5on3bsxQ/viewform?usp=sf_link` )
+  9. After you pass KYC verification successfully,  fill out the [Application Form](https://docs.google.com/forms/d/e/1FAIpQLSfEKn9Nd-KNC58xSykppZYxtdc_0qwIGjP9KhHZ0-5on3bsxQ/viewform?usp=sf_link` )
 
-  10.After all organizations signature your application，you will receive the  email which will tell you the value of `YourOrgNameMSP`, `CHAINCODE_NAME`, `CHAINCODE_VERSION`, `CHAINCODE_SRC_PATH` and send you a file called: `tradechannel.block`.
+ 10. After all organizations signature your application，you will receive the  email which will tell you the value of `YourOrgNameMSP`, `CHAINCODE_NAME`, `CHAINCODE_VERSION`, `CHAINCODE_SRC_PATH` and send you a file called: `tradechannel.block`.
 
   Download the  `tradechannel.block` to the directory `fabric-samples`
 
-    11. Join  Channel 
+ 11. Join  Channel 
 
   ```bash
      export FABRIC_CFG_PATH=`pwd`
@@ -199,7 +199,7 @@ Steps:
  The same below. 
 
 
- 12. Install the `chainchode`:
+12. Install the `chainchode`:
    ```bash
      export FABRIC_CFG_PATH=`pwd`
      export CORE_PEER_TLS_ENABLED=true
