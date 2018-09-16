@@ -49,13 +49,14 @@ Steps:
    ```
 
   You should relace `YorOrgName` with your Org name.
+  
 3.  Generate the Your Org Crypto Material.
 
   ```
      ./bin/cryptogen extend --config=./crypto-config.yaml 
   ```
 
-  Excute `tree crypto-config -L 4`，you will see something like the following information: 
+  Execute `tree crypto-config -L 4`，you will see something like the following information: 
 
    ```bash
    crypto-config
@@ -170,7 +171,8 @@ Steps:
   tar -czvf msp.tar.gz crypto-config/peerOrganizations/YourOrgName.yourdomain.com/msp
   ```
 
-  9. After you pass KYC verification successfully,  fill out the [Application Form](https://docs.google.com/forms/d/e/1FAIpQLSfEKn9Nd-KNC58xSykppZYxtdc_0qwIGjP9KhHZ0-5on3bsxQ/viewform?usp=sf_link` )
+  9. After you pass KYC verification successfully,  fill out the 
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfEKn9Nd-KNC58xSykppZYxtdc_0qwIGjP9KhHZ0-5on3bsxQ/viewform?usp=sf_link" target="blank">Application Form</a>
 
  10. After all organizations signature your application，you will receive the  email which will tell you the value of `YourOrgNameMSP`, `CHAINCODE_NAME`, `CHAINCODE_VERSION`, `CHAINCODE_SRC_PATH` and send you a file called: `tradechannel.block`.
 
@@ -192,15 +194,19 @@ Steps:
   ```
 
   You should:
-    repalce `YOUR_TLS_PATH`   with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls`
-    repalce `YOUR_MSP_PATH`  with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp`
-    repalce `YOUR_PEER_ADDRESS` with `peer0.YourOrgName.yourdomain.com:7051`
-    repalce `YOUR_MSP_ID` with  `YourOrgNameMSP`  
+  
+    replace `YOUR_TLS_PATH`   with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls`
+    
+    replace `YOUR_MSP_PATH`  with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp`
+    
+    replace `YOUR_PEER_ADDRESS` with `peer0.YourOrgName.yourdomain.com:7051`
+    
+    replace `YOUR_MSP_ID` with  `YourOrgNameMSP`  
 
  The same below. 
 
 
-12. Install the `chainchode`:
+12. Install the `chaincode`:
    ```bash
      export FABRIC_CFG_PATH=`pwd`
      export CORE_PEER_TLS_ENABLED=true
@@ -214,8 +220,8 @@ Steps:
      ./bin/peer chaincode install -n CHAINCODE_NAME -v CHAINCODE_VERSION -p CHAINCODE_SRC_PATH
    ```
 
-After finish all steps，you become a node of `Permissioned Blockchain`.
+After finish all steps，you become an ordinary node  of `Permissioned blockchain`.
 
 
 In addition:
-  If you want to become a `permissioned` node of blockchain, please contact us:support@tigerwit.co.uk.
+  If you want to become a `permissioned` node of TigerWit blockchain, please contact us at:support@tigerwit.co.uk.
