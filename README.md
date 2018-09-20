@@ -25,7 +25,10 @@ Distributed Trade Network
 ### How to become an ordinary node of the permissioned blockchain:
 
 Prerequisites:   
-  &emsp;Before you start, you should get `Docker` installed(see `https://docs.docker.com/install/`) in your Linux server。
+  &emsp;Before you start, you will need Docker Community Edition (CE) installed on your Linux server.  
+
+  &emsp;Download [Docker CE](Link to https://docs.docker.com/install/)
+
 
 Steps: 
 
@@ -54,7 +57,12 @@ Steps:
       ./bin/cryptogen extend --config=./crypto-config.yaml 
       ```
 
-      Execute `tree crypto-config -L 4`，you will see something like the following information: 
+      Execute:
+      ```bash
+      tree crypto-config -L 4
+      ```
+      
+      You will see the following information:
 
       ```bash
       crypto-config
