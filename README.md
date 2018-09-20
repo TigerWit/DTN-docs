@@ -15,10 +15,10 @@ Distributed Trade Network
 3. Two-way authentication transaction data
   We offer the following way to enable users to verify transaction data:
 
-   1. Original transaction data to the Digest: users can calculate the digest value `V1` by the common hash algorithm we published on the website.  And then they can visit any node of blockchain query service that deployed in the blockchain node to verify if `V1` exist. 
+    1. Original transaction data to the Digest: users can calculate the digest value `V1` by the common hash algorithm we published on the website.  And then they can visit any node of blockchain query service that deployed in the blockchain node to verify if `V1` exist. 
 
 
-   2. Digest to original transaction data: users can visit any node of blockchain query service that deployed in the blockchain node to query their transactions history data. selcet digest `V2` one of the history data, go to offical website query  the  original transaction data of `V2` to verify that if data has been modified.
+      2. Digest to original transaction data: users can visit any node of blockchain query service that deployed in the blockchain node to query their transactions history data. selcet digest `V2` one of the history data, go to offical website query  the  original transaction data of `V2` to verify that if data has been modified.
 
 
 
@@ -29,199 +29,196 @@ Prerequisites:
 
 Steps: 
 
- 1. Use the following command to set up evironment:
+1. Use the following command to set up evironment:
 
-    ```bash
-    curl -sSL http://bit.ly/2ysbOFE | bash -s 1.2.0
-    cd fabric-samples
-    ```
+      ```bash
+      curl -sSL http://bit.ly/2ysbOFE | bash -s 1.2.0
+      cd fabric-samples
+      ```
 
- 2. Create a new file called `crypto-config.yaml`. Populate the file with the following content:
+2. Create a new file called `crypto-config.yaml`. Populate the file with the following content:
 
-    ```yaml
-    PeerOrgs:
-      - Name: YourOrgName
-        Domain: YourOrgName.yourdomain.com
-        Template:
-          Count: 1  
-        Users:
-          Count: 1
-    ```
+      ```yaml
+      PeerOrgs:
+        - Name: YourOrgName
+          Domain: YourOrgName.yourdomain.com
+          Template:
+            Count: 1  
+          Users:
+            Count: 1
+      ```
 
-    &emsp;You should relace `YourOrgName` with your organisation.
-   
- 3. Generate the Your Org Crypto Material.
+3. Generate the Your Org Crypto Material.
 
-    ```bash
-    ./bin/cryptogen extend --config=./crypto-config.yaml 
-    ```
+      ```bash
+      ./bin/cryptogen extend --config=./crypto-config.yaml 
+      ```
 
-    &emsp;Execute `tree crypto-config -L 4`，you will see something like the following information: 
+      Execute `tree crypto-config -L 4`，you will see something like the following information: 
 
-    ```bash
-    crypto-config
-    └── peerOrganizations
-     └── YourOrgName.yourdomain.com
-         ├── ca
-         │   ├── c13cbe59063d173a4bf4aa5222a6d08880c7863ef09db1901c671936481dd1be_sk
-         │   └── ca.YourOrgName.yourdomain.com-cert.pem
-         ├── msp
-         │   ├── admincerts
-         │   ├── cacerts
-         │   └── tlscacerts
-         ├── peers
-         │   └── peer0.YourOrgName.yourdomain.com
-         │   
-         ├── tlsca
-         │   ├── 94a6de4c811c100f9c8a685a06ee1dfbaa27ef5d4ca10a6fa8032342b0155426_sk
-         │   └── tlsca.YourOrgName.yourdomain.com-cert.pem
-         └── users
-             ├── Admin@YourOrgName.yourdomain.com
-             └── User1@YourOrgName.yourdomain.com
-     ```
+      ```bash
+      crypto-config
+      └── peerOrganizations
+       └── YourOrgName.yourdomain.com
+           ├── ca
+           │   ├── c13cbe59063d173a4bf4aa5222a6d08880c7863ef09db1901c671936481dd1be_sk
+           │   └── ca.YourOrgName.yourdomain.com-cert.pem
+           ├── msp
+           │   ├── admincerts
+           │   ├── cacerts
+           │   └── tlscacerts
+           ├── peers
+           │   └── peer0.YourOrgName.yourdomain.com
+           │   
+           ├── tlsca
+           │   ├── 94a6de4c811c100f9c8a685a06ee1dfbaa27ef5d4ca10a6fa8032342b0155426_sk
+           │   └── tlsca.YourOrgName.yourdomain.com-cert.pem
+           └── users
+               ├── Admin@YourOrgName.yourdomain.com
+               └── User1@YourOrgName.yourdomain.com
+      ```
 
- 4. Create a new file called `peer-base.yaml`. Populate the file with the following content:
+4. Create a new file called `peer-base.yaml`. Populate the file with the following content:
 
-    ```yaml
-    version: '2'
-    services:
-      peer-base:
-        image: hyperledger/fabric-peer:latest
-        restart: always
-        environment:
-          - GODEBUG=netdns=go
-          - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-          - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=host
-          - CORE_LOGGING_LEVEL=INFO
-          - CORE_LOGGING_FORMAT=%{color}[%{id:03x} %{time:01-02 15:04:05.00 MST}] [%{longpkg}] %{callpath} -> %{level:.4s}%{color:reset} %{message}
-          - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=v120_default  # uncomment this to use specific network
-          - CORE_PEER_TLS_ENABLED=true
-          - CORE_PEER_GOSSIP_USELEADERELECTION=true
-          - CORE_PEER_GOSSIP_ORGLEADER=false
-          - CORE_PEER_PROFILE_ENABLED=false
-          - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
-          - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
-          - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
-          - CORE_CHIANCODE_LOGGING_LEVEL=DEBUG
-          - CORE_CHIANCODE_LOGGING_FORMAT=%{color}[%{id:03x} %{time:01-02 15:04:05.00 MST}] [%{longpkg}] %{callpath} -> %{level:.4s}%{color:reset} %{message}
-          - CORE_PEER_MSPCONFIGPATH = /
-        expose:
-          - "7051"  # Grpc
-          - "7052"  # Peer CLI
-          - "7053"  # Peer Event
-        volumes:
-          - $GOPATH/src/github.com/hyperledger/fabric:/go/src/github.com/hyperledger/fabric
-        working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-        command: peer node start
-    ```
- 5. Create a new file called `docker-compose-base.yaml`. Populate the file with the following content:
+      ```yaml
+      version: '2'
+      services:
+        peer-base:
+          image: hyperledger/fabric-peer:latest
+          restart: always
+          environment:
+            - GODEBUG=netdns=go
+            - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+            - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=host
+            - CORE_LOGGING_LEVEL=INFO
+            - CORE_LOGGING_FORMAT=%{color}[%{id:03x} %{time:01-02 15:04:05.00 MST}] [%{longpkg}] %{callpath} -> %{level:.4s}%{color:reset} %{message}
+            - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=v120_default  # uncomment this to use specific network
+            - CORE_PEER_TLS_ENABLED=true
+            - CORE_PEER_GOSSIP_USELEADERELECTION=true
+            - CORE_PEER_GOSSIP_ORGLEADER=false
+            - CORE_PEER_PROFILE_ENABLED=false
+            - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+            - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+            - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+            - CORE_CHIANCODE_LOGGING_LEVEL=DEBUG
+            - CORE_CHIANCODE_LOGGING_FORMAT=%{color}[%{id:03x} %{time:01-02 15:04:05.00 MST}] [%{longpkg}] %{callpath} -> %{level:.4s}%{color:reset} %{message}
+            - CORE_PEER_MSPCONFIGPATH = /
+          expose:
+            - "7051"  # Grpc
+            - "7052"  # Peer CLI
+            - "7053"  # Peer Event
+          volumes:
+            - $GOPATH/src/github.com/hyperledger/fabric:/go/src/github.com/hyperledger/fabric
+          working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+          command: peer node start     
+      ```
 
-    ```yaml
-    version: '2'
-    services:
-      peer0.YourOrgName.yourdomain.com:
-        container_name: peer0.YourOrgName.yourdomain.com
-        extends:
-          file: peer-base.yaml
-          service: peer-base
-        environment:
-          - CORE_PEER_ID=peer0.YourOrgName.yourdomain.com
-          - CORE_PEER_ADDRESS=peer0.YourOrgName.yourdomain.com:7051
-          - CORE_PEER_CHAINCODEADDRESS=peer0.YourOrgName.yourdomain.com:7052
-          - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
-          - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.YourOrgName.yourdomain.com:7051
-          - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.trade.tigerwit.com:7051
-          - CORE_PEER_LOCALMSPID=YourOrgNameMSP
-        volumes:
-            - /var/run/:/host/var/run/
-            - ../crypto-config/peerOrganizations/YourOrgName.yourdomain.com/peers/peer0.YourOrgName.yourdomain.com/msp:/etc/hyperledger/fabric/msp
-            - ../crypto-config/peerOrganizations/YourOrgName.yourdomain.com/peers/peer0.YourOrgName.yourdomain.com/tls:/etc/hyperledger/fabric/tls
-        ports:
-          - 7051:7051
-          - 7052:7052
-          - 7053:7053
-    ```
+5. Create a new file called `docker-compose-base.yaml`. Populate the file with the following content:
 
- 6. Create a new file called`docker-compose-yourorgname.yaml`. Populate  the file with the following content:
-
-    ```yaml
-    version: '2'
+      ```yaml
+      version: '2'
       services:
         peer0.YourOrgName.yourdomain.com:
-          extends:
-            file:   base/docker-compose-base.yaml
-            service: peer0.YourOrgName.yourdomain.com
           container_name: peer0.YourOrgName.yourdomain.com
-        peer1.YourOrgName.yourdomain.com:
           extends:
-            file:   base/docker-compose-base.yaml
-            service: peer1.YourOrgName.yourdomain.com
-          container_name: peer1.YourOrgName.yourdomain.com  
-    ```
+            file: peer-base.yaml
+            service: peer-base
+          environment:
+            - CORE_PEER_ID=peer0.YourOrgName.yourdomain.com
+            - CORE_PEER_ADDRESS=peer0.YourOrgName.yourdomain.com:7051
+            - CORE_PEER_CHAINCODEADDRESS=peer0.YourOrgName.yourdomain.com:7052
+            - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+            - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.YourOrgName.yourdomain.com:7051
+            - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.trade.tigerwit.com:7051
+            - CORE_PEER_LOCALMSPID=YourOrgNameMSP
+          volumes:
+              - /var/run/:/host/var/run/
+              - ../crypto-config/peerOrganizations/YourOrgName.yourdomain.com/peers/peer0.YourOrgName.yourdomain.com/msp:/etc/hyperledger/fabric/msp
+              - ../crypto-config/peerOrganizations/YourOrgName.yourdomain.com/peers/peer0.YourOrgName.yourdomain.com/tls:/etc/hyperledger/fabric/tls
+          ports:
+            - 7051:7051
+            - 7052:7052
+            - 7053:7053
+      ```
 
- 7. Start peers.
+6. Create a new file called`docker-compose-yourorgname.yaml`. Populate  the file with the following content:
 
-    ```bash 
-    docker-compose -f docker-compose-yourorgname.yaml up -d
-    ```
+     ```yaml
+     version: '2'
+       services:
+         peer0.YourOrgName.yourdomain.com:
+           extends:
+             file:   base/docker-compose-base.yaml
+             service: peer0.YourOrgName.yourdomain.com
+           container_name: peer0.YourOrgName.yourdomain.com
+         peer1.YourOrgName.yourdomain.com:
+           extends:
+             file:   base/docker-compose-base.yaml
+             service: peer1.YourOrgName.yourdomain.com
+           container_name: peer1.YourOrgName.yourdomain.com  
+     ```
 
- 8. Packaged `msp` folder. 
+7. Start peers.
 
-    ```bash
-    tar -czvf msp.tar.gz crypto-config/peerOrganizations/YourOrgName.yourdomain.com/msp
-    ```
+     ```
+     docker-compose -f docker-compose-yourorgname.yaml up -d
+     ```
 
- 9. Complete the 
-   <a href="https://docs.google.com/forms/d/e/1FAIpQLSfEKn9Nd-KNC58xSykppZYxtdc_0qwIGjP9KhHZ0-5on3bsxQ/viewform?usp=sf_link" target="blank">Application Form</a>
+8. Packaged `msp` folder.
 
- 10. Your application will be reviewed，you will receive email confirmation containing your keys:
+     ```bash
+     tar -czvf msp.tar.gz crypto-config/peerOrganizations/YourOrgName.yourdomain.com/msp
+     ```
 
-      - `YourOrgNameMSP` 
-      - `CHAINCODE_NAME` 
-      - `CHAINCODE_VERSION` 
-      - `CHAINCODE_SRC_PATH`
+9. Complete the <a href="https://docs.google.com/forms/d/e/1FAIpQLSfEKn9Nd-KNC58xSykppZYxtdc_0qwIGjP9KhHZ0-5on3bsxQ/viewform?usp=sf_link" target="blank">Application Form</a>.
 
-     &emsp;We will also  send you a genesis block called  `tradechannel.block`.  
-     &emsp;Download `tradechannel.block` to the directory `fabric-samples`.
+10. Your application will be reviewed，you will receive email confirmation containing your keys:
 
- 11. Join  Channel 
+    - `YourOrgNameMSP` 
+    - `CHAINCODE_NAME` 
+    - `CHAINCODE_VERSION` 
+    - `CHAINCODE_SRC_PATH`  
 
-    ```bash
-    export FABRIC_CFG_PATH=`pwd`
-    export CORE_PEER_TLS_ENABLED=true
-    export CORE_PEER_TLS_CERT_FILE=YOUR_TLS_PATH/client.crt
-    export CORE_PEER_TLS_KEY_FILE=YOUR_TLS_PATH/client.key
-    export CORE_PEER_MSPCONFIGPATH=YOUR_MSP_PATH
-    export CORE_PEER_ADDRESS=YOUR_PEER_ADDRESS
-    export CORE_PEER_LOCALMSPID=YOUR_MSP_ID
-    export CORE_PEER_TLS_ROOTCERT_FILE=YOUR_TLS_PATH/ca.crt
-    export CORE_PEER_ID=cli
-    ./bin/peer channel join -b tradechannel.block
-    ```
-   
-   &emsp;Then make the following replacements:
+  &emsp;&emsp; We will also  send you a genesis block called  `tradechannel.block`.  
+  &emsp;&emsp; Download `tradechannel.block` to the directory `fabric-samples`.  
 
-    ```text  
-    Replace YOUR_TLS_PATH with ./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls  
-    Replace YOUR_MSP_PATH with ./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp   
-    Replace YOUR_PEER_ADDRESS with peer0.YourOrgName.yourdomain.com:7051  
-    Replace YOUR_MSP_ID with YourOrgNameMSP   
-    ```
+11. Join Channel.
 
- 12. Install  `Chaincode`:
+     ```bash
+     export FABRIC_CFG_PATH=`pwd`
+     export CORE_PEER_TLS_ENABLED=true
+     export CORE_PEER_TLS_CERT_FILE=YOUR_TLS_PATH/client.crt
+     export CORE_PEER_TLS_KEY_FILE=YOUR_TLS_PATH/client.key
+     export CORE_PEER_MSPCONFIGPATH=YOUR_MSP_PATH
+     export CORE_PEER_ADDRESS=YOUR_PEER_ADDRESS
+     export CORE_PEER_LOCALMSPID=YOUR_MSP_ID
+     export CORE_PEER_TLS_ROOTCERT_FILE=YOUR_TLS_PATH/ca.crt
+     export CORE_PEER_ID=cli
+     ./bin/peer channel join -b tradechannel.block
+     ```
 
-    ```bash
-    export FABRIC_CFG_PATH=`pwd`
-    export CORE_PEER_TLS_ENABLED=true
-    export CORE_PEER_TLS_CERT_FILE=YOUR_TLS_PATH/client.crt
-    export CORE_PEER_TLS_KEY_FILE=YOUR_TLS_PATH/client.key
-    export CORE_PEER_MSPCONFIGPATH=YOUR_MSP_PATH
-    export CORE_PEER_ADDRESS=YOUR_PEER_ADDRESS
-    export CORE_PEER_LOCALMSPID=YOUR_MSP_ID
-    export CORE_PEER_TLS_ROOTCERT_FILE=YOUR_TLS_PATH/ca.crt
-    export CORE_PEER_ID=cli
-    ./bin/peer chaincode install -n CHAINCODE_NAME -v CHAINCODE_VERSION -p CHAINCODE_SRC_PATH
-    ```
+      Then make the following replacements:
+
+      ```  bash
+      Replace YOUR_TLS_PATH with ./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls  
+      Replace YOUR_MSP_PATH with ./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp   
+      Replace YOUR_PEER_ADDRESS with peer0.YourOrgName.yourdomain.com:7051  
+      Repl
+      ```
+
+12. Install  `Chaincode`:
+      ```bash
+      export FABRIC_CFG_PATH=`pwd`
+      export CORE_PEER_TLS_ENABLED=true
+      export CORE_PEER_TLS_CERT_FILE=YOUR_TLS_PATH/client.crt
+      export CORE_PEER_TLS_KEY_FILE=YOUR_TLS_PATH/client.key
+      export CORE_PEER_MSPCONFIGPATH=YOUR_MSP_PATH
+      export CORE_PEER_ADDRESS=YOUR_PEER_ADDRESS
+      export CORE_PEER_LOCALMSPID=YOUR_MSP_ID
+      export CORE_PEER_TLS_ROOTCERT_FILE=YOUR_TLS_PATH/ca.crt
+      export CORE_PEER_ID=cli
+      ./bin/peer chaincode install -n CHAINCODE_NAME -v CHAINCODE_VERSION -p CHAINCODE_SRC_PATH
+      ```
 
 Once you have completed all steps you have successfully become a node of the TigerWit blockchain. If you experience any problems setting up or operating please contact our [Client Support](mailto:support@tigerwit.com) team.
 
