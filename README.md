@@ -203,18 +203,12 @@ Steps:
      export CORE_PEER_ID=cli
      ./bin/peer channel join -b tradechannel.block
   ```
-
-  You should:
   
-    Replace `YOUR_TLS_PATH` with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls`
-    
-    Replace `YOUR_MSP_PATH` with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp`
-    
-    Replace `YOUR_PEER_ADDRESS` with `peer0.YourOrgName.yourdomain.com:7051`
-    
-    Replace `YOUR_MSP_ID` with  `YourOrgNameMSP`  
-
- The same below. 
+  Then make the following replacements:  
+    Replace `YOUR_TLS_PATH` with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls`  
+    Replace `YOUR_MSP_PATH` with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp`  
+    Replace `YOUR_PEER_ADDRESS` with `peer0.YourOrgName.yourdomain.com:7051`  
+    Replace `YOUR_MSP_ID` with  `YourOrgNameMSP`   
 
 
 12. Install  `Chaincode`:
@@ -232,6 +226,6 @@ Steps:
    ```
 
 
-Once you have completed all steps you have successfully become a node of the TigerWit blockchain. If you experience any problems setting up or operating please contact our Client Support<support@tigerwit.co.uk> team.
+Once you have completed all steps you have successfully become a node of the TigerWit blockchain. If you experience any problems setting up or operating please contact our [Client Support](mailto:support@tigerwit.co.uk) team.
 
-  If you now wish to become a `permissioned` node, please contact our Client Support<support@tigerwit.co.uk> team.
+If you now wish to become a `permissioned` node, please contact our [Client Support](mailto:support@tigerwit.co.uk) team.
