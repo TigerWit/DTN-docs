@@ -203,7 +203,7 @@ Steps:
       Replace YOUR_TLS_PATH with ./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls  
       Replace YOUR_MSP_PATH with ./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp   
       Replace YOUR_PEER_ADDRESS with peer0.YourOrgName.yourdomain.com:7051  
-      Repl
+      Replace YOUR_MSP_ID with YourOrgNameMSP 
       ```
 
 12. Install  `Chaincode`:
