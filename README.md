@@ -38,7 +38,7 @@ Steps:
 
 2. Create a new file called `crypto-config.yaml`. Populate the file with the following content:
 
-   ```yaml
+  ```yaml
    PeerOrgs:
      - Name: YourOrgName
        Domain: YourOrgName.yourdomain.com
@@ -46,14 +46,14 @@ Steps:
          Count: 1  
        Users:
          Count: 1
-   ```
+  ```
 
   You should relace `YourOrgName` with your organisation.
   
 3.  Generate the Your Org Crypto Material.
 
   ```
-     ./bin/cryptogen extend --config=./crypto-config.yaml 
+  ./bin/cryptogen extend --config=./crypto-config.yaml 
   ```
 
   Execute `tree crypto-config -L 4`，you will see something like the following information: 
@@ -162,7 +162,7 @@ Steps:
  7. Start peers：
 
   ```bash 
-    docker-compose -f docker-compose-yourorgname.yaml up -d
+  docker-compose -f docker-compose-yourorgname.yaml up -d
   ```
 
   8. Packaged `msp` folder. 
@@ -175,19 +175,16 @@ Steps:
   <a href="https://docs.google.com/forms/d/e/1FAIpQLSfEKn9Nd-KNC58xSykppZYxtdc_0qwIGjP9KhHZ0-5on3bsxQ/viewform?usp=sf_link" target="blank">Application Form</a>
 
  10. Your application will be reviewed，you will receive email confirmation containing your keys.
- 
-   * `YourOrgNameMSP`  
-   
-   * `CHAINCODE_NAME` 
-   
-   * `CHAINCODE_VERSION`
-   
-   * `CHAINCODE_SRC_PATH` 
+
+   - `YourOrgNameMSP`   
+   - `CHAINCODE_NAME`   
+   - `CHAINCODE_VERSION`  
+   - `CHAINCODE_SRC_PATH`
    
    
    We will also  send you a genesis block called  `tradechannel.block`.
 
-  Download `tradechannel.block` to the directory `fabric-samples`
+   Download `tradechannel.block` to the directory `fabric-samples`.
 
  11. Join  Channel 
 
@@ -204,12 +201,13 @@ Steps:
      ./bin/peer channel join -b tradechannel.block
   ```
   
-  Then make the following replacements:  
-    Replace `YOUR_TLS_PATH` with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls`  
-    Replace `YOUR_MSP_PATH` with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp`  
-    Replace `YOUR_PEER_ADDRESS` with `peer0.YourOrgName.yourdomain.com:7051`  
-    Replace `YOUR_MSP_ID` with  `YourOrgNameMSP`   
-
+  Then make the following replacements: 
+```text  
+Replace YOUR_TLS_PATH with ./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls  
+Replace YOUR_MSP_PATH with ./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp   
+Replace YOUR_PEER_ADDRESS with peer0.YourOrgName.yourdomain.com:7051  
+Replace YOUR_MSP_ID with YourOrgNameMSP   
+```
 
 12. Install  `Chaincode`:
    ```bash
