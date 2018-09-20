@@ -36,7 +36,7 @@ Steps:
   cd fabric-samples
   ```
 
-2. Create a new file called `crypto-config.yaml`. Edit it with the following content:
+2. Create a new file called `crypto-config.yaml`. Populate the file with the following content:
 
    ```yaml
    PeerOrgs:
@@ -48,7 +48,7 @@ Steps:
          Count: 1
    ```
 
-  You should relace `YorOrgName` with your Org name.
+  You should relace `YourOrgName` with your organisation.
   
 3.  Generate the Your Org Crypto Material.
 
@@ -80,7 +80,7 @@ Steps:
             └── User1@YourOrgName.yourdomain.com
    ```
 
-4. Create a new file called `peer-base.yaml`. Edit it with the following content:
+4. Create a new file called `peer-base.yaml`. Populate the file with the following content:
 
   ```yaml
   version: '2'
@@ -114,7 +114,7 @@ Steps:
       working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
       command: peer node start
   ```
-5. Create a new file called `docker-compose-base.yaml`. Edit it with the following content:
+5. Create a new file called `docker-compose-base.yaml`. Populate the file with the following content:
   ```yaml
   version: '2'
   services:
@@ -141,7 +141,7 @@ Steps:
         - 7053:7053
   ```
 
-6.  Create a new file called`docker-compose-yourorgname.yaml`. Edit it with the following content
+6.  Create a new file called`docker-compose-yourorgname.yaml`. Populate  the file with the following content
 
   ```yaml
   version: '2'
@@ -171,12 +171,23 @@ Steps:
   tar -czvf msp.tar.gz crypto-config/peerOrganizations/YourOrgName.yourdomain.com/msp
   ```
 
-  9. After you pass KYC verification successfully,  fill out the 
+  9. Complete the 
   <a href="https://docs.google.com/forms/d/e/1FAIpQLSfEKn9Nd-KNC58xSykppZYxtdc_0qwIGjP9KhHZ0-5on3bsxQ/viewform?usp=sf_link" target="blank">Application Form</a>
 
- 10. After all organizations signature your application，you will receive the  email which will tell you the value of `YourOrgNameMSP`, `CHAINCODE_NAME`, `CHAINCODE_VERSION`, `CHAINCODE_SRC_PATH` and send you a file called: `tradechannel.block`.
+ 10. Your application will be reviewed，you will receive email confirmation containing your keys.
+ 
+   * `YourOrgNameMSP`  
+   
+   * `CHAINCODE_NAME` 
+   
+   * `CHAINCODE_VERSION`
+   
+   * `CHAINCODE_SRC_PATH` 
+   
+   
+   We will also  send you a genesis block called  `tradechannel.block`.
 
-  Download the  `tradechannel.block` to the directory `fabric-samples`
+  Download `tradechannel.block` to the directory `fabric-samples`
 
  11. Join  Channel 
 
@@ -195,18 +206,18 @@ Steps:
 
   You should:
   
-    replace `YOUR_TLS_PATH`   with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls`
+    Replace `YOUR_TLS_PATH` with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/tls`
     
-    replace `YOUR_MSP_PATH`  with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp`
+    Replace `YOUR_MSP_PATH` with `./crypto-config/peerOrganizations/YourOrgName.yourdomain.com/users/Admin@YourOrgName.yourdomain.com/msp`
     
-    replace `YOUR_PEER_ADDRESS` with `peer0.YourOrgName.yourdomain.com:7051`
+    Replace `YOUR_PEER_ADDRESS` with `peer0.YourOrgName.yourdomain.com:7051`
     
-    replace `YOUR_MSP_ID` with  `YourOrgNameMSP`  
+    Replace `YOUR_MSP_ID` with  `YourOrgNameMSP`  
 
  The same below. 
 
 
-12. Install the `chaincode`:
+12. Install  `Chaincode`:
    ```bash
      export FABRIC_CFG_PATH=`pwd`
      export CORE_PEER_TLS_ENABLED=true
@@ -220,8 +231,7 @@ Steps:
      ./bin/peer chaincode install -n CHAINCODE_NAME -v CHAINCODE_VERSION -p CHAINCODE_SRC_PATH
    ```
 
-After finish all steps，you become an ordinary node  of `Permissioned blockchain`.
 
+Once you have completed all steps you have successfully become a node of the TigerWit blockchain. If you experience any problems setting up or operating please contact our Client Support<support@tigerwit.co.uk> team.
 
-In addition:
-  If you want to become a `permissioned` node of TigerWit blockchain, please contact us at:support@tigerwit.co.uk.
+  If you now wish to become a `permissioned` node, please contact our Client Support<support@tigerwit.co.uk> team.
